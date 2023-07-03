@@ -52,7 +52,7 @@ function createIcon(classes){
 
 // remove items from the list
 function removeItem(e){
-    const items = itemList.querySelectorAll("li");
+    
 
     if (e.target.parentElement.classList.contains("remove-item")){
         if(confirm("Are you sure?")){
@@ -65,11 +65,30 @@ function removeItem(e){
 }
 
 // remove all the items
-function clearItems(e){
+function clearItems(){
     while(itemList.firstChild){
         itemList.removeChild(itemList.firstChild);
     }
+
+    checkUI();
 }
+
+// filter list items 
+function filterItems(e){
+    const items = itemList.querySelectorAll("li");
+    const text = e.target.value.toLowerCase();
+
+    items.forEach(item => {
+        const itemName = item.firstChild.textContent.toLowerCase();
+        
+        if(itemName.indexOf(text) != -1){
+            item.style.display = "flex"
+        } else {
+            item.style.display = "none";
+        }
+    });
+}
+
 
 //  check the UI state
 function checkUI(){
@@ -84,9 +103,11 @@ function checkUI(){
     }
 }
 
+
 // event listeners
 itemForm.addEventListener("submit", addItem);
 itemList.addEventListener("click", removeItem);
 clearBtn.addEventListener("click", clearItems);
+filter.addEventListener("input", filterItems);
 
 checkUI();
