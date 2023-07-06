@@ -106,7 +106,7 @@ function removeItem(item){
     }
    
 }
-3
+
 // remove the item from localStorage
 function removeItemFromStorage(item){
     let itemsFromStorage = getItemsFromStorage();
