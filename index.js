@@ -5,7 +5,7 @@ const clearBtn = document.getElementById("clear");
 const filter = document.getElementById("filter");
 
 // add item function
-function addItem(e){
+function onAddItemSubmit(e){
     e.preventDefault();
 
     let newItem = itemInput.value;
@@ -16,21 +16,51 @@ function addItem(e){
         return;
     }
 
+    // item DOM element
+    addItemToDOM(newItem);
+
+    // add to localStorage
+    addItemToStorage(newItem);
+
+    // check UI state
+    checkUI()
+
+    // clear input field
+    itemInput.value = "";
+
+    
+}
+
+// display items on the DOM
+function addItemToDOM(item){
+
     // create a list item
     const li = document.createElement("li");
-    li.appendChild(document.createTextNode(newItem));
+    li.appendChild(document.createTextNode(item));
     
     const button = createButton("remove-item btn-link text-red");
     li.appendChild(button);
     
     itemList.appendChild(li);
 
-    // check UI state
-    checkUI()
+}
 
-    // clear input field
-    newItem.value = "";
-    
+// add item to localStorage
+function addItemToStorage(item){
+    let itemsFromStorage;
+
+    if(localStorage.getItem("item") === null){
+        itemsFromStorage = [];
+    } else {
+        itemsFromStorage = JSON.parse(localStorage.getItem("item"));
+    }
+
+    // add new item to the list
+    itemsFromStorage.push(item);
+
+    // convert to JSON string and set to localStorage
+    localStorage.setItem("item", JSON.stringify(itemsFromStorage));
+
 }
 
 // form button 
@@ -82,7 +112,7 @@ function filterItems(e){
         const itemName = item.firstChild.textContent.toLowerCase();
         
         if(itemName.indexOf(text) != -1){
-            item.style.display = "flex"
+            item.style.display = "flex";
         } else {
             item.style.display = "none";
         }
@@ -105,7 +135,7 @@ function checkUI(){
 
 
 // event listeners
-itemForm.addEventListener("submit", addItem);
+itemForm.addEventListener("submit", onAddItemSubmit);
 itemList.addEventListener("click", removeItem);
 clearBtn.addEventListener("click", clearItems);
 filter.addEventListener("input", filterItems);
