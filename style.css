@@ -38,14 +38,19 @@ header h1 {
   padding: 20px;
 }
 
+.edit-mode {
+  color: #ccc;
+}
+
 /* Form & Input */
 .form-input {
+  background: transparent;
   width: 100%;
   font-size: 18px;
   margin-bottom: 20px;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: none;
+  border-bottom: 1px solid #ccc;
   outline: none;
 }
 
